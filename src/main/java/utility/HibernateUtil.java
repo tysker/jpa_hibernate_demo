@@ -11,6 +11,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.FileInputStream;
 import java.util.Properties;
 
 @Slf4j
@@ -26,14 +27,15 @@ public class HibernateUtil {
 
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
-                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/hibernate");
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "Tysker/3085");
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
+                settings.load(new FileInputStream("src/main/resources/util.properties"));
+                settings.put(Environment.DRIVER, settings.get("util.database_driver"));
+                settings.put(Environment.URL, settings.get("util.database_url"));
+                settings.put(Environment.USER, settings.get("util.database_user"));
+                settings.put(Environment.PASS, settings.get("util.database_password"));
+                settings.put(Environment.DIALECT, settings.get("util.database_dialect"));
+                settings.put(Environment.HBM2DDL_AUTO, settings.get("util.database_automation"));
                 settings.put(Environment.SHOW_SQL, "true");
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
                 // == add settings to Configuration ==
                 configuration.setProperties(settings);
                 // == Entity classes ==
@@ -49,6 +51,7 @@ public class HibernateUtil {
 
                 System.out.println("Hibernate Java Config serviceRegistry created");
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
                 return sessionFactory;
 
             } catch (Exception e) {
