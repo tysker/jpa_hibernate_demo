@@ -26,7 +26,7 @@
         <!-- for logging and debugging -->
         <property name="hibernate.archive.autodetection">class</property>
         <property name="hibernate.show_sql" >true</property>
-        <!-- entity classes -->
-        <mapping class="entity.Student" />
+        <!-- model classes -->
+        <mapping class="model.Student" />
     </session-factory>
 </hibernate-configuration>

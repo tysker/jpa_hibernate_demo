@@ -1,38 +1,55 @@
-
-import entity.Student;
-import facade.StudentFacade;
+import facade.CourseFacade;
+import facade.InstructorDetailFacade;
+import facade.InstructorFacade;
+import model.Course;
+import model.Instructor;
+import model.InstructorDetail;
 
 public class Main {
     public static void main(String[] args) {
 
-        StudentFacade facade = new StudentFacade();
+        InstructorFacade facade = new InstructorFacade();
+        InstructorDetailFacade detailFacade = new InstructorDetailFacade();
+        CourseFacade courseFacade = new CourseFacade();
 
-        Student s1 = new Student("joe", "rur", "joe@gmail.com");
-        Student s2 = new Student("steve", "nielsen", "steve@microsoft.com");
-        Student s3 = new Student("karl", "schmidt", "karl@test.com");
-        Student s4 = new Student("benjamin", "nielsen", "maja@gmail.com");
+        Instructor int1 = new Instructor("Joe", "Smith", "smith@gmail.com");
+        Instructor int2 = new Instructor("Steve", "Nielsen", "nielsen@gmail.com");
+        Instructor int3 = new Instructor("Joe", "Smith", "smith@gmail.com");
+        Instructor int4 = new Instructor("Steve", "Nielsen", "nielsen@gmail.com");
 
+        InstructorDetail intDet1 = new InstructorDetail("youTube/camping", "camping");
+        InstructorDetail intDet2 = new InstructorDetail("youTube/running", "running");
 
-        System.out.println("==========================================================================================");
-        System.out.println("Save objects!");
-        facade.saveObject(s1);
-        facade.saveObject(s2);
-        facade.saveObject(s3);
-        facade.saveObject(s4);
+        int1.setInstructorDetail(intDet1);
+        int2.setInstructorDetail(intDet2);
 
-        System.out.println("getAllStudents()");
-        facade.displayStudents(facade.getAllStudents());
+        System.out.println("Saved object id: " + facade.saveInstructor(int1));
+        System.out.println("Saved object id: " + facade.saveInstructor(int2));
 
-        System.out.println("findStudentById");
-        facade.displayStudents(facade.findStudentById(1));
+        // == find Instructor by ID ==
+        Instructor instructor = facade.findInstructorById(1);
+        // == find InstructorDetail by ID ==
+        InstructorDetail instructorDetail = detailFacade.findInstructorDetail(1);
+        // == Printout ==
+        System.out.println(instructorDetail.getHobby());
+        System.out.println(instructor.getInstructorDetail().getHobby());
+        System.out.println(instructor.getInstructorDetail().getYoutubeChannel());
 
-        System.out.println("getAllStudentsBySameLastName");
-        facade.displayStudents(facade.getAllStudentsBySameLastName("nielsen"));
+        // == Add Courses ==
+        Course c1 = new Course("java");
+        Course c2 = new Course("python");
+        Course c3 = new Course("c#");
+        Course c4 = new Course("haskell");
 
-        System.out.println("getAllStudentsWithSameEmailProvider()");
-        facade.displayStudents(facade.getAllStudentsWithSameEmailProvider("gmail.com"));
+        int1.addToCourse(c1);
+        int1.addToCourse(c2);
+        int1.addToCourse(c3);
+        int1.addToCourse(c4);
 
-        System.out.println("getAllStudentsWithFirstNameOrLastName()");
-        facade.displayStudents(facade.getAllStudentsWithFirstNameOrLastName("karl", "nielsen"));
+        courseFacade.saveCourse(c1);
+        courseFacade.saveCourse(c2);
+        courseFacade.saveCourse(c3);
+        courseFacade.saveCourse(c4);
+
     }
 }
