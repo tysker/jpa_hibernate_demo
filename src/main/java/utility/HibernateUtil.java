@@ -25,9 +25,11 @@ public class HibernateUtil {
             try {
                 Configuration configuration = new Configuration();
 
-                // Hibernate settings equivalent to hibernate.cfg.xml's properties
+                // == Hibernate settings equivalent to hibernate.cfg.xml's properties ==
                 Properties settings = new Properties();
-                settings.load(new FileInputStream("src/main/resources/util.properties"));
+                // == Read properties from files ==
+                settings.load(new FileInputStream("src/main/resources/utility/util.properties"));
+                // == Environment Setup ==
                 settings.put(Environment.DRIVER, settings.get("util.database_driver"));
                 settings.put(Environment.URL, settings.get("util.database_url"));
                 settings.put(Environment.USER, settings.get("util.database_user"));
